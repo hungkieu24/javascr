@@ -111,14 +111,13 @@ Array.prototype.reduce2 = function (callback, result) {
     return result;
 }
 
-
-
 var numbers = [1, 2, 3, 4 ,5];
 
 var sum = numbers.reduce2( (total, initialValue) => total + initialValue, 0 );
 
 console.log(sum);
 
+// Chuyển mảng thành object
 function arrToObj(array) {
     return array.reduce((key, value) => {
         key[value[0]] = value[1];
@@ -132,3 +131,127 @@ var arr = [
     ['age', 18],
 ];
 console.log(arrToObj(arr));
+
+// Tự định nghĩa hàm map 
+Array.prototype.map2 = function(callback1) {
+
+    var newArray =[];
+    for (var i = 0; i < this.length; i++) {
+       var result = callback1(this[i],i);
+       newArray.push(result);
+    }
+    return newArray;
+}
+
+var arrName = [
+    'hung',
+    'hai',
+    'thu'
+]
+
+var htmls = arrName.map2(function(name) {
+    return `<h2>${name}<h2>`;
+});
+console.log(htmls);
+
+// tự định nghĩa hàm foreach
+Array.prototype.forEach2 = function(callback2) {
+    for (var i = 0; i < this.length; i++) {
+        callback2(this[i]);
+    }
+}
+
+var info = [
+    {
+        name: 'Hung',
+        age: 18,
+    },
+    {
+        name: 'Hung',
+        age: 19,
+    },
+    {
+        name: 'Hai',
+        age: 16
+    }
+];
+
+info.forEach2(function(in4) {
+    console.log(in4);
+});
+
+// tự định nghĩa hàm every
+
+// Hàm every2 nhận vào một hàm test
+Array.prototype.every2 = function(test) {
+    // Khởi tạo biến result là true
+    var result = true;
+    // Dùng vòng lặp for để duyệt qua các phần tử của mảng
+    for (var i = 0; i < this.length; i++) {
+      // Gọi hàm test với phần tử hiện tại và lưu kết quả vào biến passed
+      var passed = test(this[i]);
+      // Nếu passed là false, gán result là false và thoát khỏi vòng lặp
+      if (!passed) {
+        result = false;
+        break;
+      }
+    }
+    // Trả về giá trị của result
+    return result;
+  }
+
+var age18 = info.every2(function(check) {
+    return check.age === 16;
+})
+
+console.log(age18);
+
+// tự định nghĩa hàm find 
+
+// Cách 1
+Array.prototype.find2 = function (finded) {
+    // Dùng vòng lặp for để duyệt qua các phần tử của mảng
+    for (let i = 0; i < this.length; i++) {
+      // Gọi hàm finded với phần tử hiện tại và lưu kết quả vào biến passed
+      let passed = finded(this[i]);
+      // Nếu passed là true, trả về giá trị của phần tử hiện tại và thoát khỏi vòng lặp
+      if (passed) {
+        return this[i];
+      }
+    }
+    // Nếu không có phần tử nào thỏa mãn điều kiện, trả về undefined
+    return undefined;
+  }
+// Cách 2
+// Array.prototype.myFind = function(callback) {
+//     for(let i of this) {
+//         if(callback(i)) {
+//             return i;
+//         }
+//     }
+//     return undefined;
+// }
+
+var findInfo = info.find2(function(finded) {
+    return finded.name ==='Hai';
+});
+console.log(findInfo);
+
+
+// Tự định nghĩa hàm filter 
+Array.prototype.filter2 = function(findAll) {
+    const newArray = [];
+    for (var i = 0; i < this.length; i++){
+        var passed = findAll(this[i]);
+        if (passed){
+            newArray.push(this[i]);
+        }
+    }
+    return newArray;
+}
+
+var infoFilter = info.filter2(function(all) {
+    return all.name === 'Hung';
+})
+console.log(infoFilter);
+
