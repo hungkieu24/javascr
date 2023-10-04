@@ -156,8 +156,16 @@ console.log(htmls);
 
 // tự định nghĩa hàm foreach
 Array.prototype.forEach2 = function(callback2) {
-    for (var i = 0; i < this.length; i++) {
-        callback2(this[i]);
+    for (var i in this) {
+        if (this.hasOwnProperty(i)) // vòng lặp for in này có lợi là không lặp qua mảng rỗng 
+                                    //và chỉ xuất các phần tử hiện hữu của mảng thừa độ dài 
+                                    // nhưng nó lại lặp qua cả các phần tử ở __proto__ 
+                                    // nên cần hàm hasOwnProperty (trong trường hợp này) 
+                                    // để ktra cái this đó có nắm giữ index hay không \
+                                    // or có phải là thuộc tính phương thức gần nhất hay không
+        { 
+        callback2(this[i],i,this);
+        }
     }
 }
 
@@ -200,6 +208,20 @@ Array.prototype.every2 = function(test) {
     return result;
   }
 
+// Cách 2 
+Array.prototype.myevery = function(cb) {
+    var result = true;
+    for (var i in this) {
+        if (this.hasOwnProperty(i)) {
+            var passed = cb(this[i], i, this);
+            if(!passed) {
+                result = false;
+            }
+        }
+    }
+    return result;
+}
+
 var age18 = info.every2(function(check) {
     return check.age === 16;
 })
@@ -223,14 +245,26 @@ Array.prototype.find2 = function (finded) {
     return undefined;
   }
 // Cách 2
-// Array.prototype.myFind = function(callback) {
-//     for(let i of this) {
-//         if(callback(i)) {
-//             return i;
-//         }
-//     }
-//     return undefined;
-// }
+Array.prototype.myFind = function(callback) {
+    for(let i of this) {
+        if(callback(i)) {
+            return i;
+        }
+    }
+    return undefined;
+}
+// Cách 3 
+Array.prototype.myFind2 = function(callback) {
+    for(var i in this) {
+        if (this.hasOwnProperty(i)) {
+            var passed = callback(this[i]);
+            if (passed) {
+                return this[i];
+            }
+        }
+    }
+    return undefined;
+}
 
 var findInfo = info.find2(function(finded) {
     return finded.name ==='Hai';
@@ -241,17 +275,21 @@ console.log(findInfo);
 // Tự định nghĩa hàm filter 
 Array.prototype.filter2 = function(findAll) {
     const newArray = [];
-    for (var i = 0; i < this.length; i++){
-        var passed = findAll(this[i]);
-        if (passed){
-            newArray.push(this[i]);
+
+    for (var i in this){
+        if (this.hasOwnProperty(i)) {
+            var passed = findAll(this[i]);
+            if (passed){
+                newArray.push(this[i]);
+            }
         }
     }
+
     return newArray;
 }
 
 var infoFilter = info.filter2(function(all) {
-    return all.name === 'Hung';
+    return all.age > 16;
 })
 console.log(infoFilter);
 
