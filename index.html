@@ -4,8 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        ul{
+            display:none;
+        }
+        input:focus ~ ul{
+            display: block;
+        }
+    </style>
 </head>
 <body>
+    <input placeholder="Tìm Kiếm"/>
+    <ul>
+        <li>Java</li>
+        <li>PHP</li>
+        <li>HTML</li>
+    </ul>
+    <br/>
+
+    <input placeholder="onchange" type="text">
+    <br/>
+    <input placeholder="onkey" type="text_2">
+    <input type="checkbox">
+    <select>
+    <option value="value:1">1</option>
+    <option value="value:2">2</option>
+    <option value="value:3">3</option>
+    </select>
+
+    <div>
+        DIV
+        <button>Click ME!!</button>
+    </div>
     <script src="./java.js"></script>
 </body>
 </html>

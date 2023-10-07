@@ -293,3 +293,59 @@ var infoFilter = info.filter2(function(all) {
 })
 console.log(infoFilter);
 
+
+// DOM Events
+
+// presentDefault events
+// ví dụ về ngăn chặn thẻ ul ẩn đi khi không focus vào thẻ input
+var ulElement = document.querySelector('ul');
+
+ulElement.onmousedown = function(e) {
+    e.preventDefault();
+}
+
+ulElement.onclick = function(e) {
+    console.log(e.target)
+}
+
+// ví dụ về onchange và onkey
+var inputchange = document.querySelector('input[type="text"]');
+inputchange.onchange = function(e) {
+    console.log(e.target.value);
+}
+
+var inputkey = document.querySelector('input[type="text_2"]');
+inputkey.onkeyup = function(e) {
+    switch(e.keyCode) // or e.which
+    {
+        case 13: // khi ấn phím enter, theo keyCode là số 13
+            console.log('Enter');
+            break;
+        case 27: // khi ấn phím esc, theo keyCode là số 27
+            console.log('esc');
+            break;
+    }
+}
+
+var checkbox = document.querySelector('input[type="checkbox"]');
+// ấn vào ô check sẽ ra kq là true or flase
+checkbox.onclick = function(e) {
+    console.log(e.target.checked);
+}
+
+var selected = document.querySelector('select');
+//ấn select 1 ô thì sẽ trả ra value của ô đó
+selected.onchange = function(e) {
+    console.log(e.target.value);
+}
+
+// Stop Propagation (ngăn chặn sự nổi bọt)
+document.querySelector('div').onclick = function() {
+    console.log('DIV');
+}
+document.querySelector('button').onclick = function(e) {
+    e.stopPropagation();
+    console.log('Click success!!');
+}
+
+
