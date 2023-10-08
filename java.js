@@ -348,4 +348,52 @@ document.querySelector('button').onclick = function(e) {
     console.log('Click success!!');
 }
 
+// Promise
+function sleep(ms) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, ms);
+    })
+};
 
+sleep(1000)
+    .then(function() {
+        console.log(1);
+        return sleep(1000);
+    })
+    .then(function() {
+        console.log(2);
+        return sleep(1000);
+    })
+    .then(function() {
+        console.log(3);
+        return sleep(1000);
+    })
+    .then(function() {
+        console.log(4);
+        return sleep(1000);
+    })
+
+// Promise.all
+
+var promise1 = new Promise(
+    function(resolve){
+        setTimeout(function(){
+            resolve([1,2]);
+        },4000)
+    }
+);
+
+var promise2 = new Promise(
+    function(resolve){
+        setTimeout(function(){
+            resolve([3,4]);
+        },5000)
+    }
+);
+
+Promise.all([promise1,promise2])
+    .then(function(result){
+        var result1 = result[0];
+        var result2 = result[1];
+        console.log(result1.concat(result2));
+    })
